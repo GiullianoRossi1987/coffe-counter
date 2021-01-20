@@ -1,0 +1,16 @@
+{
+	"mainvars":{
+		"metricSystems": [
+			{"volume": "mL", "weight": "g", "name": "metricSystemDefault"},
+			{"volume": "oZ", "weight": "lbs", "name": "ImperialSystem"}
+		]
+	},
+	"profiles":[{
+		"name": "default",
+		"cupvolume": 200,
+		"metricSystem": 0,
+		"hoursPerCup": 6
+	}]
+}
+
+
