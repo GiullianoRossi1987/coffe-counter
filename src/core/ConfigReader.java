@@ -11,9 +11,9 @@ public class ConfigReader{
 	protected boolean gotConfig = false;
 	protected String fileLoaded = null;
 
-	public final String ERR_GCE = "There's a configurations file loaded already";
-	public final String ERR_CNL = "There's no configurations file loaded";
-	public final String ERR_PEE = "Can't load file \"%file\": Error -> \"%message\"";
+	public static final String ERR_GCE = "There's a configurations file loaded already";
+	public static final String ERR_CNL = "There's no configurations file loaded";
+	public static final String ERR_PEE = "Can't load file \"%file\": Error -> \"%message\"";
 
 	public class GotConfigError extends Exception{
 		public GotConfigError(String msg){ super(msg); }
@@ -23,6 +23,10 @@ public class ConfigReader{
 	}
 	public class ParseError extends Exception{
 		public ParseError(String file, String msg){ super("Can't load file \"" + file + "\": Error -> \"" + msg + "\""); }
+	}
+
+	public class AttachError extends Exception{
+		public AttachError(String msg){ super(msg); }
 	}
 
 	public ConfigReader(String configFile) throws ConfigReader.GotConfigError, ConfigReader.ParseError{
@@ -48,6 +52,19 @@ public class ConfigReader{
 
 	public boolean gotFile(){ return this.gotConfig; }
 
+	public JSONArray getProfiles() throws ConfigReader.ConfigNotLoaded{
+		if(!gotConfig) throw new ConfigReader.ConfigNotLoaded(ERR_CNL);
+		else return this.configurations.getJSONArray("profiles");
+	}
+
+	public JSONArray getMetrics() throws ConfigReader.ConfigNotLoaded{
+		if(!gotConfig) throw new ConfigReader.ConfigNotLoaded(ERR_CNL);
+		else return this.configurations.getJSONObject("mainvars").getJSONArray("metricSystems");
+	}
+
+	@Override
+	public String toString(){ return this.configurations.toString(); }
+
 	private void refresh() throws ConfigReader.ConfigNotLoaded, ConfigReader.ParseError{
 		if(!gotConfig) throw new ConfigReader.ConfigNotLoaded(ERR_CNL);
 		try{
@@ -62,6 +79,11 @@ public class ConfigReader{
 		catch(IOException ioe){ throw new ConfigReader.ParseError(this.fileLoaded, ioe.toString());}
 	}
 
+	public void dump() throws ConfigReader.ConfigNotLoaded, ConfigReader.ParseError{
+		if(!gotConfig) throw new ConfigReader.ConfigNotLoaded(ERR_CNL);
+		this.dumpConfigurations(this.configurations);
+	}
+
 
 	public void dumpConfigurations(JSONObject newConfig) throws ConfigReader.ConfigNotLoaded, ConfigReader.ParseError{
 		if(!gotConfig) throw new ConfigReader.ConfigNotLoaded(ERR_CNL);
@@ -73,5 +95,7 @@ public class ConfigReader{
 		catch(IOException ioe){ throw new ConfigReader.ParseError(this.fileLoaded, ioe.toString());}
 		this.refresh();
 	}
+
+	
 
 }

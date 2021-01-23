@@ -1,16 +1,1 @@
-{
-	"mainvars":{
-		"metricSystems": [
-			{"volume": "mL", "weight": "g", "name": "metricSystemDefault"},
-			{"volume": "oZ", "weight": "lbs", "name": "ImperialSystem"}
-		]
-	},
-	"profiles":[{
-		"name": "default",
-		"cupvolume": 200,
-		"metricSystem": 0,
-		"hoursPerCup": 6
-	}]
-}
-
-
+{"profiles":[{"hoursPerCup":6,"name":"default","metricSystem":0,"cupvolume":200},{"hoursPerCup":6,"name":"teste","metricSystem":0,"cupvolume":200}],"mainvars":{"metricSystems":[{"volume":"mL","name":"metricSystemDefault","weight":"g"},{"volume":"oZ","name":"ImperialSystem","weight":"lbs"}]}}
