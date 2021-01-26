@@ -1,6 +1,8 @@
 package core;
 
 import org.json.*;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class ProfileManager extends ConfigReader{
@@ -103,6 +105,16 @@ public class ProfileManager extends ConfigReader{
 		int index = this.indexOf(name);
 		return new Profile(this.profiles.getJSONObject(index), index);
 	}
+
+	public List<Profile> getObjAllProfiles() throws ConfigReader.ConfigNotLoaded{
+		if(!this.gotConfig) throw new ConfigReader.ConfigNotLoaded(ConfigReader.ERR_CNL);
+		List<Profile> profiles = new ArrayList<Profile>();
+		for(int i = 0; i < this.profiles.length(); ++i)
+			profiles.add(new Profile(this.profiles.getJSONObject(i), i));
+		return profiles;
+	}
+
+
 
 
 	// public Profile getProfile(String name) throws
